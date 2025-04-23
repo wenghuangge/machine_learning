@@ -58,13 +58,11 @@ class RNN(nn.Module):
         self.fc = nn.Linear(hidden_size, output_size)
         
     def forward(self, x):
-        # 初始化隐藏状态
+        # 初始化隐藏状态 - 【层数， 批量大小， 隐藏数】
         h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
-        
         # 前向传播RNN
         out, _ = self.rnn(x, h0)
-        
-        # 取RNN最后一个时间步的输出
+        # 取RNN最后一个时间步的输出, rnn输出[batch_size, sequence_length, hidden_size]
         out = self.fc(out[:, -1, :])
         return out
 
